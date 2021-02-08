@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>My Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Flamenco&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e7be5ae91b.js" crossorigin="anonymous" name="eazy_codes"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <center>
+        <h1>Registration Form</h1>
+    </center>
+    <form action="" method="post">
+        <table border="0" align="center">
+            <tbody>
+                <tr>
+                    <td><label for="name">Enter Your Full Name: </label></td>
+                    <td><input id="name" maxlength="50" name="name" type="text" placeholder="Enter Name" /></td>
+                </tr>
+
+                <tr>
+                    <td><label for="course"> Enter Your  Course: </label></td>
+                    <td><input id="course" maxlength="50" name="course" type="text" placeholder="Enter Course" /></td>
+                </tr>
+
+                <tr>
+                    <td><label for="branch">Enter Your Branch: </label></td>
+                    <td><input id="branch" maxlength="50" name="branch" type="text" placeholder="Enter Branch" /></td>
+                </tr>
+
+                <tr>
+                    <td><label for="rollno">Roll no: </label></td>
+                    <td><input id="rollno" maxlength="50" name="rollno" type="text" placeholder="Enter Roll No" /></td>
+                </tr>
+
+                <tr>
+                    <td><label for="email">Email Address:</label></td>
+                    <td><input id="email" maxlength="50" name="email" type="text" placeholder="Enter Email Address" /></td>
+                </tr>
+
+                <tr>
+                    <td><label for="password">Password:</label></td>
+                    <td><input id="password" maxlength="50" name="password" type="password" placeholder="Enter Password" /></td>
+                </tr>
+
+                <tr>
+                    <td align="right"><input type="button" value="Register" onclick="registerCandidate();" /></td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </form>
+    <div align="center">
+        <a href="https://sumitgit-coder.github.io/My-Portfolio-website.github.io/">Contact Me</a>
+    </div>
+    <script>
+        function createPUTRequest(connToken, jsonObj, dbName, relName) {
+            var putRequest = "{\n" +
+                "\"token\" : \"" +
+                connToken +
+                "\"," +
+                "\"dbName\": \"" +
+                dbName +
+                "\",\n" + "\"cmd\" : \"PUT\",\n" +
+                "\"rel\" : \"" +
+                relName + "\"," +
+                "\"jsonStr\": \n" +
+                jsonObj +
+                "\n" +
+                "}";
+            return putRequest;
+        }
+
+        function executeCommand(reqString, dbBaseUrl, apiEndPointUrl) {
+            var url = dbBaseUrl + apiEndPointUrl;
+            var jsonObj;
+            $.post(url, reqString, function(result) {
+                jsonObj = JSON.parse(result);
+            }).fail(function(result) {
+                var dataJsonObj = result.responseText;
+                jsonObj = JSON.parse(dataJsonObj);
+            });
+            return jsonObj;
+        }
+
+        function validateAndGetFormData() {
+
+            var name = document.getElementById("name").value;
+            var course = document.getElementById("course").value;
+            var branch = document.getElementById("branch").value;
+            var roll = document.getElementById("rollno").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            var jsonStrObj = {
+                CandidateName: name,
+                Course: course,
+                Branch: branch,
+                RollNo: roll,
+                Email: email,
+                Password: password,
+            };
+            return JSON.stringify(jsonStrObj);
+        }
+
+        function registerCandidate() {
+
+            var jsonStr = validateAndGetFormData();
+            if (jsonStr === "") {
+                return;
+            }
+            var putReqStr = createPUTRequest("",
+                jsonStr, "CourseData", "Candidate-Data");
+            alert(putReqStr);
+            jQuery.ajaxSetup({
+                async: false
+            });
+            var resultObj = executeCommand(putReqStr,
+                "http://api.login2explore.com:5577", "/api/iml");
+            jQuery.ajaxSetup({
+                async: true
+            });
+            alert("INSERTED " + JSON.stringify(resultObj));
+
+        }
+    </script>
+    <br>
+    <br>
+
+
+    <!-- Contact Us Start  -->
+    <section class="section" id="contact-us" align="center">
+        <div class="container-fluid">
+            <div class="row">
+
+                <h1>Contact Us Form</h1>
+                <!--  Contact Form Start  -->
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="contact-form">
+                        <form action="https://formspree.io/f/xeqpvylp" method="POST" id="my-form" class="my-form">
+                            <div class="input-wrap">
+                                <input type="text" id="firstname" name="firstname" placeholder="Firstname" required="" class="contact-field">
+                                <input type="text" id="lastname" name="lastname" placeholder="Lastname" required="" class="contact-field">
+
+
+                            </div>
+                            <div class="input-wrap-2">
+                                <input type="email" id="email" name="email" placeholder="Your Email" required="" class="contact-field">
+                            </div>
+                            <div class="input-wrap-2">
+
+                                <textarea name="message" id="message" cols="30" rows="10" placeholder="Write Your Message" required="" class="contact-field"></textarea>
+                            </div>
+                            <div class="btn-wrapper">
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <button type="submit" id="form-submit" class="main-button">Send It</button>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div id="status"></div>
+
+                        </form>
+
+
+                    </div>
+                </div>
+                <!--  Contact Form End -->
+            </div>
+        </div>
+    </section>
+    <!--  Contact Us End  -->
+
+
+
+    <footer align="center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-md-12 col-sm-12">
+                    <p class="copyright">Copyright &copy; Sumit . Design: </p>
+                </div>
+                <div class="col-lg-5 col-md-12 col-sm-12">
+                    <ul class="social">
+                        <a href="https://t.me/EAZY_CODES"><i class="fab fa-telegram"></i></a> &nbsp;&nbsp; &nbsp;
+                        <a href="https://github.com/sumitgit-coder"><i class="fab fa-github"></i></a>&nbsp;&nbsp; &nbsp;
+                        <a href="https://www.facebook.com/sumit.chourey.775"><i class="fa fa-facebook"></i></a>&nbsp;&nbsp; &nbsp;
+                        <a href="https://twitter.com/sumitchourey999?s=08"><i class="fa fa-twitter"></i></a>&nbsp;&nbsp; &nbsp;
+                        <a href="https://www.linkedin.com/in/sumit-chourey-081a46183"><i class="fa fa-linkedin"></i></a>&nbsp;&nbsp; &nbsp;
+                        <a href="https://www.instagram.com/insta_chourey/?igshid=17d47bjack3p1"><i class="fab fa-instagram"></i></a>&nbsp;&nbsp; &nbsp;
+                        <a href="https://www.youtube.com/c/EAZYCODES"><i class="fab fa-youtube"></i></a></li>&nbsp;&nbsp; &nbsp;
+                        <a href="https://sumitgit-coder.github.io/My-Portfolio-website.github.io/">Contact Me</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
