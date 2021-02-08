@@ -37,13 +37,5 @@ It is built on top of one of the fastest and real-time data indexing engine - Po
 It is low level (raw) form of data and is also human readable.
 It helps developers in faster coding, in-turn reduces development cost.
 
-<html>
-<body>
-   <h1>Screenshoots</h1>
-   <img src="images/1.png">
-   <img src="images/2.png">
-   <img src="images/3.png">
-   <img src="images/4.png">
-</body>
-</html>
+
 
